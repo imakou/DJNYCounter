@@ -14,10 +14,10 @@ import "./index.css";
 import { initializeApp } from "firebase";
 import "firebase/app";
 var firebaseConfig = {
-  apiKey: "AIzaSyA3eqCFZ-Y_lyU55IjZMQI4OFYkkKW4GCQ",
-  authDomain: "djcounter-9057a.firebaseapp.com",
-  databaseURL: "https://djcounter-9057a.firebaseio.com",
-  storageBucket: "djcounter-9057a.appspot.com"
+  apiKey: "AIzaSyATy9h-DsOpKlpqod4QBc5B4-R_cTm-lIQ",
+  authDomain: "djcounterfycd.firebaseapp.com",
+  databaseURL: "https://djcounterfycd.firebaseio.com",
+  storageBucket: "djcounterfycd.appspot.com"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -42,9 +42,21 @@ const useStyles = makeStyles(theme => ({
     padding: 10,
     backgroundColor: "rgba(30,144,255,0.5)"
   },
+  DialogRoot: {
+    backgroundColor: "#f5b501"
+  },
   goalSpan: {
     color: "rgba(230, 52, 52, 1)",
     fontSize: 15
+  },
+  DialogContent: {
+    fontSize: "28px"
+  },
+  DialogActions: {
+    justifyContent: "center"
+  },
+  buttonSubmit: {
+    fontSize: "15px"
   }
 }));
 
@@ -72,22 +84,19 @@ const App = () => {
     setOpen(false);
   };
 
-
-
-
   return (
     <Container maxWidth="sm">
       <Box my={4}>
         <Typography variant="h6" className={classes.container}>
           白陽弟子同修
           <br />
-          響應您我凝聚善願同步誦經祈願
-          <br />
-          吃素＆恭誦彌勒救苦真經三遍
-          <br />
-          參加者誦經後請點擊一次計數器
-          <br />
           把愛串起來 凝聚您我慈悲之心
+          <br />
+          響應您我凝聚善願誦經祈願
+          <br />
+          凡吃素＆恭誦彌勒救苦真經三遍
+          <br />
+          請點擊「我已經完成誦經」迴向
           <br />
           叩求諸天仙佛慈悲撥轉 感動上天
           <br />
@@ -123,12 +132,11 @@ const App = () => {
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          classes={{ paper: classes.DialogRoot }}
         >
-          <DialogTitle id="alert-dialog-title">
-          迴向文：
-          </DialogTitle>
+          <DialogTitle id="alert-dialog-title">迴向文：</DialogTitle>
           <DialogContent>
-            <Typography variant="h6">
+            <Typography variant="h6" className={classes.DialogContent}>
               願以此誦經功德迴向
               <br />
               平息新冠狀肺炎疫情
@@ -136,8 +144,13 @@ const App = () => {
               眾生平安
             </Typography>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={completedDJ} color="primary">
+          <DialogActions className={classes.DialogActions}>
+            <Button
+              variant="outlined"
+              onClick={completedDJ}
+              color="secondary"
+              className={classes.buttonSubmit}
+            >
               我願意將誦經功德迴向給受苦難的眾生
             </Button>
           </DialogActions>
