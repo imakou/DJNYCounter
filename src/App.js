@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -8,25 +8,26 @@ import {
   makeStyles,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
+  CircularProgress,
 } from "@material-ui/core";
 import "./index.css";
 import { initializeApp } from "firebase";
 import "firebase/app";
 var firebaseConfig = {
-  apiKey: "AIzaSyATy9h-DsOpKlpqod4QBc5B4-R_cTm-lIQ",
-  authDomain: "djcounterfycd.firebaseapp.com",
-  databaseURL: "https://djcounterfycd.firebaseio.com",
-  storageBucket: "djcounterfycd.appspot.com"
+  apiKey: "AIzaSyC7B4gF3SLM67krt-m3KpcfedhVqvrQmqg",
+  authDomain: "djnycounter.firebaseapp.com",
+  databaseURL: "https://djnycounter.firebaseio.com",
+  storageBucket: "djnycounter.appspot.com",
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   button: {
     fontSize: 24,
     fontWeight: "bold",
     width: "100%",
-    margin: "15px 0"
+    margin: "15px 0",
   },
   container: {
     fontSize: 20,
@@ -34,40 +35,52 @@ const useStyles = makeStyles(theme => ({
     textShadow: "1px 2px 0px black;",
     padding: 10,
     backgroundColor: "rgba(0,0,0,0.5)",
-    margin: "15px 0"
+    margin: "15px 0",
   },
   bottomConainter: {
     color: "#fff",
     textShadow: "1px 2px 0px black;",
     padding: 10,
-    backgroundColor: "rgba(30,144,255,0.5)"
+    backgroundColor: "rgba(30,144,255,0.8)",
+  },
+  ButtonDisabled: {
+    color: "white !important",
+    backgroundColor: "grey  !important",
   },
   DialogRoot: {
-    backgroundColor: "#f5b501"
+    backgroundColor: "#f5b501",
   },
   goalSpan: {
-    color: "rgba(230, 52, 52, 1)",
-    fontSize: 15
+    fontSize: 16,
   },
   DialogContent: {
-    fontSize: "28px"
+    fontSize: "22px",
   },
   DialogActions: {
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonSubmit: {
-    fontSize: "15px"
-  }
+    fontSize: "15px",
+  },
+  subTitle: {
+    display: "inline-block",
+    backgroundColor: "red",
+  },
+  whiteColor: {
+    color: "#fff",
+  },
 }));
 
 const App = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [isDataLoaded, setDataLoaded] = useState(false);
   const [localCount, setCount] = useState("-");
-  const rootRef = firebaseApp.database().ref("/");
+  const rootRef = firebaseApp.database().ref();
   useEffect(() => {
-    rootRef.on("value", snapshot => {
-      const { counter } = snapshot.val();
+    rootRef.child("counter").on("value", (snapshot) => {
+      const counter = snapshot.val();
+      setDataLoaded(true);
       setCount(counter);
     });
   }, []);
@@ -80,7 +93,12 @@ const App = () => {
   };
 
   const completedDJ = () => {
-    rootRef.child("counter").set(localCount + 1);
+    let updates = {};
+    const newConut = Number(localCount + 1);
+    updates["counter"] = Number(newConut);
+    if (newConut > localCount) {
+      rootRef.update(updates);
+    }
     setOpen(false);
   };
 
@@ -88,15 +106,19 @@ const App = () => {
     <Container maxWidth="sm">
       <Box my={4}>
         <Typography variant="h6" className={classes.container}>
-          白陽弟子同修
+          發一崇德大紐約地區所屬佛堂
+          <br />
+          響應您我凝聚善願同步誦經祈願
+          <br />
+          誦經累計次數3600次數10800遍
+          <br />
+          晚餐吃素＆
+          <br />
+          晚上8點恭誦彌勒救苦真經三遍
+          <br />
+          誦經後點擊「我已經完成誦經」迴向
           <br />
           把愛串起來 凝聚您我慈悲之心
-          <br />
-          響應您我凝聚善願誦經祈願
-          <br />
-          凡吃素＆恭誦彌勒救苦真經三遍
-          <br />
-          請點擊「我已經完成誦經」迴向
           <br />
           叩求諸天仙佛慈悲撥轉 感動上天
           <br />
@@ -110,10 +132,16 @@ const App = () => {
           flexDirection="column"
           p={3}
         >
-          <Typography variant="h5">誦經累計次數：{localCount}</Typography>
-          <span className={classes.goalSpan}>
-            恭誦彌勒救苦真經：{localCount * 3} 遍
-          </span>
+          {isDataLoaded ? (
+            <Fragment>
+              <Typography variant="h5">誦經累計次數：{localCount}</Typography>
+              <span className={classes.goalSpan}>
+                恭誦彌勒救苦真經：{localCount * 3} 遍
+              </span>
+            </Fragment>
+          ) : (
+            <CircularProgress />
+          )}
         </Box>
 
         <Box display="flex" justifyContent="center">
@@ -122,8 +150,10 @@ const App = () => {
             color="primary"
             onClick={() => handleClickOpen()}
             className={classes.button}
+            classes={{ disabled: classes.ButtonDisabled }}
+            disabled={!isDataLoaded}
           >
-            🙏 我已經完成誦經 🙏
+            🙏完成誦經三遍，請按此🙏
           </Button>
         </Box>
 
@@ -137,21 +167,21 @@ const App = () => {
           <DialogTitle id="alert-dialog-title">迴向文：</DialogTitle>
           <DialogContent>
             <Typography variant="h6" className={classes.DialogContent}>
-              願以此誦經功德迴向
+              願以此誦經功德
               <br />
-              平息新冠狀肺炎疫情
+              迴向新冠狀肺炎疫情平息
               <br />
-              眾生平安
+              祈願眾生平安
             </Typography>
           </DialogContent>
           <DialogActions className={classes.DialogActions}>
             <Button
-              variant="outlined"
+              variant="contained"
               onClick={completedDJ}
               color="secondary"
               className={classes.buttonSubmit}
             >
-              我願意將誦經功德迴向給受苦難的眾生
+              完成功德迴向，請按此
             </Button>
           </DialogActions>
         </Dialog>
