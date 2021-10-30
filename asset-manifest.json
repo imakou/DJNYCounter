@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/DJCounterFYCD/static/css/main.da520724.chunk.css",
+    "main.js": "/DJCounterFYCD/static/js/main.e66ab50e.chunk.js",
+    "main.js.map": "/DJCounterFYCD/static/js/main.e66ab50e.chunk.js.map",
+    "runtime-main.js": "/DJCounterFYCD/static/js/runtime-main.17833bdc.js",
+    "runtime-main.js.map": "/DJCounterFYCD/static/js/runtime-main.17833bdc.js.map",
+    "static/js/2.fe2270d3.chunk.js": "/DJCounterFYCD/static/js/2.fe2270d3.chunk.js",
+    "static/js/2.fe2270d3.chunk.js.map": "/DJCounterFYCD/static/js/2.fe2270d3.chunk.js.map",
+    "index.html": "/DJCounterFYCD/index.html",
+    "static/css/main.da520724.chunk.css.map": "/DJCounterFYCD/static/css/main.da520724.chunk.css.map",
+    "static/js/2.fe2270d3.chunk.js.LICENSE.txt": "/DJCounterFYCD/static/js/2.fe2270d3.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/DJCounterFYCD/static/media/bbe3559b-3585-4c7a-91ba-10706bd81a53.a04730d7.jpeg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.17833bdc.js",
+    "static/js/2.fe2270d3.chunk.js",
+    "static/css/main.da520724.chunk.css",
+    "static/js/main.e66ab50e.chunk.js"
+  ]
+}
